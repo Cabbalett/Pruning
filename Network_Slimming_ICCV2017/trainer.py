@@ -39,20 +39,16 @@ def train_prune(model, EPOCHS, device, train_loader, val_loader):
         pbar = tqdm(enumerate(train_loader), total=len(train_loader))
         total, correct, running_loss = 0, 0, 0.0
         for i, (inputs, labels) in pbar:
-            # get the inputs; data is a list of [inputs, labels]
             inputs, labels = inputs.to(device), labels.to(device)
 
-            # zero the parameter gradients
             optimizer.zero_grad()
 
-            # forward + backward + optimize
             outputs = model(inputs)
             outputs = torch.squeeze(outputs)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-
-            # print statistics
+            
             running_loss += loss.item()
             _, pred = torch.max(outputs, 1)
             total += labels.size(0)
@@ -74,25 +70,19 @@ def train(model, EPOCHS, device, train_loader, val_loader):
         pbar = tqdm(enumerate(train_loader), total=len(train_loader))
         total, correct, running_loss = 0, 0, 0.0
         for i, (inputs, labels) in pbar:
-            # get the inputs; data is a list of [inputs, labels]
             inputs, labels = inputs.to(device), labels.to(device)
 
-            # zero the parameter gradients
             optimizer.zero_grad()
-
-            # forward + backward + optimize
             outputs = model(inputs)
             l1_reg=0
             for name, layer in model.named_parameters():
                 if 'bn' in name and 'weight' in name:
                     l1_reg+= torch.norm(layer)
 
-            # import pdb;pdb.set_trace()
-            loss = criterion(outputs, labels) + 0.001*l1_reg
+            loss = criterion(outputs, labels) + 0.01*l1_reg
             loss.backward()
             optimizer.step()
 
-            # print statistics
             running_loss += loss.item()
             _, pred = torch.max(outputs, 1)
             total += labels.size(0)

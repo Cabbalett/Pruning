@@ -16,3 +16,5 @@ Realization of the paper;
         python finetune.py
 
 more detailed explanation in [My Blog](https://cabbalett.github.io/week17/Week17-1/)
+
+vgg model based on [huyvnphan's github](https://github.com/huyvnphan/PyTorch_CIFAR10)

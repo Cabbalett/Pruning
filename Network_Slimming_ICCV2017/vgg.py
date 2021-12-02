@@ -218,9 +218,5 @@ def vgg11_bn_half(pretrained=False, progress=True, device="cpu", **kwargs):
 def vgg11_bn_quarter(pretrained=False, progress=True, device="cpu", **kwargs):
     return _vgg_quarter("vgg11_bn", "A_quarter", True, pretrained, progress, device, **kwargs)
 
-
-
-
-
 if __name__ == '__main__':
     print(vgg11_bn_half())
